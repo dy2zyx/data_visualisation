@@ -1,0 +1,70 @@
+---
+title: "A visualisation exemple of the movieLens dataset"
+author: "Yu"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  epuRate::PCTG:
+    toc: TRUE
+    number_sections: FALSE
+    code_folding: "hide"
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# You need these libraries to run this template:
+library(rmarkdown)    # install.packages("rmarkdown") 
+library(epuRate)      # devtools::install_github("holtzy/epuRate", force=TRUE)
+library(ggplot2)
+library(gapminder)
+library(ggridges)
+library(dplyr)
+library(forcats)
+library(dygraphs)
+library(xts)
+library(tidyverse)
+library(lubridate)
+library(DT)
+```
+
+<br><br><br><br>
+
+MovieLens data sets were collected by the GroupLens Research Project at the University of Minnesota.
+
+This data set consists of:
+	* 100,000 ratings (1-5) from 943 users on 1682 movies. 
+	* Each user has rated at least 20 movies. 
+        * Simple demographic info for the users (age, gender, occupation, zip)
+<br> <br> <br>
+
+
+# Loading data
+***
+Let's load the dataset
+
+```{r load dataset, message=FALSE, results=FALSE}
+df <- read.delim("C:/Users/Administrator/Downloads/ml-100k/ml-100k/u.data", header=FALSE)
+df$V4 = as.Date(as.POSIXct(df$V4, origin="1970-01-01"))
+## rename the columns
+ratings <- df %>% 
+  rename(
+    user = V1,
+    item = V2,
+    rating = V3,
+    timestamp = V4
+    )
+```
+
+
+# Analyse and show data in a table
+***
+
+```{r analyse, message=TRUE, results=TRUE}
+summary(ratings)
+
+#head(ratings)
+
+datatable(ratings, filter = "top", rownames = FALSE, options = list(pageLength = 5, scrollX=T))
+```
+
+
+
+
